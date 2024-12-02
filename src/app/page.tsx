@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Editor } from "@/components/editor";
 
 export default function Home() {
     return (
-        <div>
-            <Button>Editor AI</Button>
-        </div>
+        <main>
+            <Editor />
+        </main>
     );
 }
