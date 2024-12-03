@@ -2,6 +2,7 @@ import { useImageStore } from "@/lib/image-store";
 import { Layer, useLayerStore } from "@/lib/layer-store";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import ImageComparison from "./layers/image-comparison";
 
 export default function ActiveImage() {
     const generating = useImageStore((state) => state.generating);
@@ -38,6 +39,18 @@ export default function ActiveImage() {
             )}
         </div>
     );
+
+    if (layerComparisonMode && comparedLayers.length > 0) {
+        const comparisonLayers = comparedLayers
+            .map((id) => layers.find((l) => l.id === id))
+            .filter(Boolean) as Layer[];
+
+        return (
+            <div className="relative flex h-svh w-full flex-col items-center justify-center bg-secondary p-24">
+                <ImageComparison layers={comparisonLayers} />
+            </div>
+        );
+    }
 
     return (
         <div className="relative flex h-svh w-full flex-col items-center justify-center bg-secondary p-24">
