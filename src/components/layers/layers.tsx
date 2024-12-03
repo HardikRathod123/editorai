@@ -13,6 +13,7 @@ import {
     CardTitle,
 } from "../ui/card";
 import LayerImage from "./layer-image";
+import LayerInfo from "./layer-info";
 
 export default function Layers() {
     const layers = useLayerStore((state) => state.layers);
@@ -126,6 +127,12 @@ export default function Layers() {
                                         </p>
                                     ) : null}
                                     <LayerImage layer={layer} />
+                                    {layers.length !== 1 && (
+                                        <LayerInfo
+                                            layer={layer}
+                                            layerIndex={index}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>
