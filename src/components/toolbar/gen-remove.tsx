@@ -95,7 +95,6 @@ export default function GenRemove() {
                         });
                         if (res?.data?.success) {
                             setGenerating(false);
-
                             const newLayerId = crypto.randomUUID();
                             addLayer({
                                 id: newLayerId,
