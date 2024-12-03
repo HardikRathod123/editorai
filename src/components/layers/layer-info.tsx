@@ -19,7 +19,7 @@ export default function LayerInfo({
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">
+                <Button variant="outline" onClick={(e) => e.stopPropagation()}>
                     <Ellipsis size={18} />
                 </Button>
             </DialogTrigger>
