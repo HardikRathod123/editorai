@@ -1,6 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
     Popover,
     PopoverContent,
@@ -8,28 +10,26 @@ import {
 } from "@/components/ui/popover";
 import { useImageStore } from "@/lib/image-store";
 import { useLayerStore } from "@/lib/layer-store";
-import { bgRemoval } from "@/server/bg-remove";
-import { Image as ImageIcon } from "lucide-react";
+import { replaceBackground } from "@/server/bg-replace";
+import { ImageOff } from "lucide-react";
+import { useState } from "react";
 
-export default function BgRemove() {
-    const tags = useImageStore((state) => state.tags);
-    const setActiveTag = useImageStore((state) => state.setActiveTag);
-    const activeTag = useImageStore((state) => state.activeTag);
-    const setActiveColor = useImageStore((state) => state.setActiveColor);
-    const activeColor = useImageStore((state) => state.activeColor);
+export default function AIBackgroundReplace() {
     const setGenerating = useImageStore((state) => state.setGenerating);
     const activeLayer = useLayerStore((state) => state.activeLayer);
     const addLayer = useLayerStore((state) => state.addLayer);
-    const layers = useLayerStore((state) => state.layers);
     const generating = useImageStore((state) => state.generating);
     const setActiveLayer = useLayerStore((state) => state.setActiveLayer);
+
+    const [prompt, setPrompt] = useState("");
+
     return (
         <Popover>
             <PopoverTrigger disabled={!activeLayer?.url} asChild>
                 <Button variant="outline" className="py-8">
                     <span className="flex flex-col items-center justify-center gap-1 text-xs font-medium">
-                        BG Removal
-                        <ImageIcon size={18} />
+                        AI BG Replace
+                        <ImageOff size={18} />
                     </span>
                 </Button>
             </PopoverTrigger>
@@ -37,47 +37,55 @@ export default function BgRemove() {
                 <div className="grid gap-4">
                     <div className="space-y-2">
                         <h4 className="font-medium leading-none">
-                            Background Removal
+                            Generative Background Replace
                         </h4>
-                        <p className="max-w-xs text-sm text-muted-foreground">
-                            Remove the background of an image with one simple
-                            click.
+                        <p className="text-sm text-muted-foreground">
+                            Replace the background of your image with
+                            AI-generated content.
                         </p>
                     </div>
+                    <div className="grid gap-2">
+                        <div className="grid grid-cols-3 items-center gap-4">
+                            <Label htmlFor="prompt">Prompt (optional)</Label>
+                            <Input
+                                id="prompt"
+                                value={prompt}
+                                onChange={(e) => setPrompt(e.target.value)}
+                                placeholder="Describe the new background"
+                                className="col-span-2 h-8"
+                            />
+                        </div>
+                    </div>
                 </div>
-
                 <Button
-                    disabled={
-                        !activeLayer?.url ||
-                        !activeTag ||
-                        !activeColor ||
-                        generating
-                    }
+                    disabled={!activeLayer?.url || generating}
                     className="mt-4 w-full"
                     onClick={async () => {
                         setGenerating(true);
-                        const res = await bgRemoval({
+                        const res = await replaceBackground({
+                            prompt: prompt,
                             activeImage: activeLayer.url!,
-                            format: activeLayer.format!,
                         });
+
                         if (res?.data?.success) {
                             const newLayerId = crypto.randomUUID();
                             addLayer({
                                 id: newLayerId,
-                                name: "bg-removed" + activeLayer.name,
-                                format: "png",
+                                name: "bg-replaced-" + activeLayer.name,
+                                format: activeLayer.format,
                                 height: activeLayer.height,
                                 width: activeLayer.width,
                                 url: res.data.success,
                                 publicId: activeLayer.publicId,
                                 resourceType: "image",
                             });
+
                             setActiveLayer(newLayerId);
                         }
                         setGenerating(false);
                     }}
                 >
-                    {generating ? "Removing..." : "Remove Background"}
+                    {generating ? "Generating..." : "Replace Background"}
                 </Button>
             </PopoverContent>
         </Popover>
