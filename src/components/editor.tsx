@@ -1,10 +1,12 @@
 "use client";
+import Layers from "./layers/layers";
 import { UploadImage } from "./upload/upload-image";
 
-export const Editor = () => {
+export default function Editor() {
     return (
-        <main>
+        <div className="flex h-full">
             <UploadImage />
-        </main>
+            <Layers />
+        </div>
     );
-};
+}

@@ -2,11 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-}
-
 @layer base {
+    html {
+        height: 100%;
+    }
+    body {
+        min-height: 100%;
+    }
     :root {
         --background: 0 0% 100%;
         --foreground: 222.2 84% 4.9%;
