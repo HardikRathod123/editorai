@@ -1,4 +1,5 @@
 "use client";
+import ActiveImage from "./active-image";
 import Layers from "./layers/layers";
 import { ModeToggle } from "./theme-toggle";
 import { UploadImage } from "./upload/upload-image";
@@ -12,6 +13,7 @@ export default function Editor() {
                 </div>
             </div>
             <UploadImage />
+            <ActiveImage />
             <Layers />
         </div>
     );
