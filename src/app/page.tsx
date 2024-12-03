@@ -20,7 +20,13 @@ export default function Home() {
                 ],
             }}
         >
-            <ImageStore.Provider initialValue={{ generating: false }}>
+            <ImageStore.Provider
+                initialValue={{
+                    activeTag: "all",
+                    activeColor: "green",
+                    activeImage: "",
+                }}
+            >
                 <Editor />
             </ImageStore.Provider>
         </LayerStore.Provider>

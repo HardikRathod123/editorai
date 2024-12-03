@@ -1,6 +1,6 @@
 "use server";
 
-import { actionClient } from "@/lib/safe-action";
+import { actionClient } from "@/server/safe-action";
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 import { z } from "zod";
 
