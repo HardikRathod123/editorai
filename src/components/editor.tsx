@@ -2,7 +2,7 @@
 import ActiveImage from "./active-image";
 import Layers from "./layers/layers";
 import { ModeToggle } from "./theme-toggle";
-import { UploadImage } from "./upload/upload-image";
+import UploadImage from "./upload/upload-image";
 
 export default function Editor() {
     return (

@@ -6,7 +6,7 @@ import { createZustandContext } from "./zustand-context";
 
 type State = {
     generating: boolean;
-    SetGenerating: (generating: boolean) => void;
+    setGenerating: (generating: boolean) => void;
 };
 
 const getStore = (initialState: { generating: boolean }) => {
@@ -14,7 +14,7 @@ const getStore = (initialState: { generating: boolean }) => {
         persist(
             (set) => ({
                 generating: initialState.generating,
-                SetGenerating: (generating) => set({ generating }),
+                setGenerating: (generating) => set({ generating }),
             }),
             {
                 name: "image-store",
