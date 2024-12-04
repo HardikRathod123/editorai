@@ -20,6 +20,7 @@ export default function UploadVideo() {
         maxFiles: 1,
         accept: {
             "video/mp4": [".mp4", ".MP4"],
+            "video/mkv": [".mkv", ".MKV"],
         },
 
         onDrop: async (acceptedFiles, fileRejections) => {

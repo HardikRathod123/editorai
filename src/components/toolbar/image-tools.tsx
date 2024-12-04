@@ -1,10 +1,10 @@
 "use client";
 
-import BgRemove from "./bg-remove";
-import AIBackgroundReplace from "./bg-replace";
-import ExtractPart from "./extract-part";
-import GenRemove from "./gen-remove";
-import GenerativeFill from "./generative-fill";
+import BgRemove from "./image/bg-remove";
+import AIBackgroundReplace from "./image/bg-replace";
+import ExtractPart from "./image/extract-part";
+import GenRemove from "./image/gen-remove";
+import GenerativeFill from "./image/generative-fill";
 
 export default function ImageTools() {
     return (
