@@ -1,5 +1,6 @@
 "use client";
 import { useLayerStore } from "@/lib/layer-store";
+import SmartCrop from "./video/smart-crop";
 import VideoTranscription from "./video/transcribe";
 
 export default function VideoTools() {
@@ -8,6 +9,7 @@ export default function VideoTools() {
         return (
             <>
                 <VideoTranscription />
+                <SmartCrop />
             </>
         );
 }
