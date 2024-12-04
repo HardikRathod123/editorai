@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/popover";
 import { useImageStore } from "@/lib/image-store";
 import { useLayerStore } from "@/lib/layer-store";
+import { genFill } from "@/server/gen-fill";
 import { Crop } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -74,7 +75,35 @@ export default function GenerativeFill() {
         };
     }, [activeLayer, width, height]);
 
-    const handleGenFill = async () => {};
+    const handleGenFill = async () => {
+        setGenerating(true);
+        const res = await genFill({
+            width: (width + activeLayer.width!).toString(),
+            height: (height + activeLayer.height!).toString(),
+            aspect: "1:1",
+            activeImage: activeLayer.url!,
+        });
+        if (res?.data?.success) {
+            console.log(res.data.success);
+            setGenerating(false);
+            const newLayerId = crypto.randomUUID();
+            addLayer({
+                id: newLayerId,
+                name: "generative-fill",
+                format: activeLayer.format,
+                height: height + activeLayer.height!,
+                width: width + activeLayer.width!,
+                url: res.data.success,
+                publicId: activeLayer.publicId,
+                resourceType: "image",
+            });
+            setActiveLayer(newLayerId);
+        }
+        if (res?.data?.error) {
+            console.log(res.data.error);
+            setGenerating(false);
+        }
+    };
 
     const ExpansionIndicator = ({
         value,
