@@ -1,17 +1,18 @@
 "use client";
 
-import { useImageStore } from "@/lib/image-store";
 import { useLayerStore } from "@/lib/layer-store";
+import { useImageStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { uploadVideo } from "@/server/upload-video";
 import Lottie from "lottie-react";
 import videoAnimation from "public/animations/video-upload.json";
 import { useDropzone } from "react-dropzone";
+import { toast } from "sonner";
 import { Card, CardContent } from "../ui/card";
 
 export default function UploadVideo() {
     const setTags = useImageStore((state) => state.setTags);
-    const setUploading = useImageStore((state) => state.setUploading);
+    const setGenerating = useImageStore((state) => state.setGenerating);
     const activeLayer = useLayerStore((state) => state.activeLayer);
     const updateLayer = useLayerStore((state) => state.updateLayer);
     const setActiveLayer = useLayerStore((state) => state.setActiveLayer);
@@ -20,24 +21,14 @@ export default function UploadVideo() {
         maxFiles: 1,
         accept: {
             "video/mp4": [".mp4", ".MP4"],
-            "video/mkv": [".mkv", ".MKV"],
         },
 
         onDrop: async (acceptedFiles, fileRejections) => {
             if (acceptedFiles.length) {
                 const formData = new FormData();
                 formData.append("video", acceptedFiles[0]);
-                setUploading(true);
-                updateLayer({
-                    id: activeLayer.id,
-                    width: 0,
-                    height: 0,
-                    name: "Uploading " + acceptedFiles[0].name,
-                    publicId: "",
-                    format: "",
-                    resourceType: "video",
-                });
-                setActiveLayer(activeLayer.id);
+                const objectUrl = URL.createObjectURL(acceptedFiles[0]);
+                setGenerating(true);
 
                 const res = await uploadVideo({ video: formData });
 
@@ -59,15 +50,17 @@ export default function UploadVideo() {
                     setTags(res.data.success.tags);
                     setActiveLayer(activeLayer.id);
                     console.log(res.data.success);
-                    setUploading(false);
+                    setGenerating(false);
                 }
                 if (res?.data?.error) {
-                    setUploading(false);
+                    setGenerating(false);
+                    toast.error(res.data.error);
                 }
             }
 
             if (fileRejections.length) {
                 console.log("rejected");
+                toast.error(fileRejections[0].errors[0].message);
             }
         },
     });

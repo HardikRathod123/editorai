@@ -11,6 +11,7 @@ import UploadForm from "./upload/upload-form";
 
 export default function Editor() {
     const activeLayer = useLayerStore((state) => state.activeLayer);
+
     return (
         <div className="flex h-full">
             <div className="min-w-48 px-4 py-6">
@@ -18,8 +19,12 @@ export default function Editor() {
                     <ModeToggle />
                 </div>
                 <div className="flex flex-col gap-4">
-                    {activeLayer.resourceType === "image" && <ImageTools />}
-                    {activeLayer.resourceType === "video" && <VideoTools />}
+                    {activeLayer.resourceType === "video" ? (
+                        <VideoTools />
+                    ) : null}
+                    {activeLayer.resourceType === "image" ? (
+                        <ImageTools />
+                    ) : null}
                     {activeLayer.resourceType && (
                         <ExportAsset resource={activeLayer.resourceType} />
                     )}

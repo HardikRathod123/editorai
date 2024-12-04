@@ -1,8 +1,8 @@
 "use client";
 
 import Editor from "@/components/editor";
-import { ImageStore } from "@/lib/image-store";
 import { LayerStore } from "@/lib/layer-store";
+import { ImageStore } from "@/lib/store";
 
 export default function Home() {
     return (

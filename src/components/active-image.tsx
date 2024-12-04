@@ -1,6 +1,7 @@
-import { useImageStore } from "@/lib/image-store";
 import { Layer, useLayerStore } from "@/lib/layer-store";
+import { useImageStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import ImageComparison from "./layers/image-comparison";
 
@@ -46,9 +47,14 @@ export default function ActiveImage() {
             .filter(Boolean) as Layer[];
 
         return (
-            <div className="relative flex h-svh w-full flex-col items-center justify-center bg-secondary p-24">
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="relative flex h-svh w-full flex-col items-center justify-center bg-secondary p-24"
+            >
                 <ImageComparison layers={comparisonLayers} />
-            </div>
+            </motion.div>
         );
     }
 

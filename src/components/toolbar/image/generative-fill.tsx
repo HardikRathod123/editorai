@@ -6,9 +6,10 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { useImageStore } from "@/lib/image-store";
 import { useLayerStore } from "@/lib/layer-store";
+import { useImageStore } from "@/lib/store";
 import { genFill } from "@/server/gen-fill";
+import { motion } from "framer-motion";
 import { Crop } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -128,12 +129,13 @@ export default function GenerativeFill() {
 
         return (
             isVisible && (
-                <div
-                    className="absolute rounded-md bg-secondary px-2 py-1 text-xs font-bold text-secondary-foreground"
+                <motion.div
+                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                    className="absolute rounded-md bg-primary px-2 py-1 text-xs font-bold text-white"
                     style={position}
                 >
                     {Math.abs(value)}px
-                </div>
+                </motion.div>
             )
         );
     };

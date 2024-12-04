@@ -9,8 +9,8 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { useImageStore } from "@/lib/image-store";
 import { useLayerStore } from "@/lib/layer-store";
+import { useImageStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { genRemove } from "@/server/gen-remove";
 import { Eraser } from "lucide-react";
@@ -95,6 +95,7 @@ export default function GenRemove() {
                         });
                         if (res?.data?.success) {
                             setGenerating(false);
+
                             const newLayerId = crypto.randomUUID();
                             addLayer({
                                 id: newLayerId,

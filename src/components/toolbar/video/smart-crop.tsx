@@ -11,8 +11,8 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { useImageStore } from "@/lib/image-store";
 import { useLayerStore } from "@/lib/layer-store";
+import { useImageStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { genCrop } from "@/server/smart-crop";
 import { Crop, Square } from "lucide-react";

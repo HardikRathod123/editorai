@@ -1,17 +1,18 @@
 "use client";
 
-import { useImageStore } from "@/lib/image-store";
 import { useLayerStore } from "@/lib/layer-store";
+import { useImageStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { uploadImage } from "@/server/upload-image";
 import Lottie from "lottie-react";
 import imageAnimation from "public/animations/image-upload.json";
 import { useDropzone } from "react-dropzone";
+import { toast } from "sonner";
 import { Card, CardContent } from "../ui/card";
 
 export default function UploadImage() {
     const setTags = useImageStore((state) => state.setTags);
-    const setUploading = useImageStore((state) => state.setUploading);
+    const setGenerating = useImageStore((state) => state.setGenerating);
     const activeLayer = useLayerStore((state) => state.activeLayer);
     const updateLayer = useLayerStore((state) => state.updateLayer);
     const setActiveLayer = useLayerStore((state) => state.setActiveLayer);
@@ -30,14 +31,14 @@ export default function UploadImage() {
                 formData.append("image", acceptedFiles[0]);
                 //Generate Object url
                 const objectUrl = URL.createObjectURL(acceptedFiles[0]);
-                setUploading(true);
+                setGenerating(true);
 
                 updateLayer({
                     id: activeLayer.id,
                     url: objectUrl,
                     width: 0,
                     height: 0,
-                    name: "Uploading " + acceptedFiles[0].name,
+                    name: "uploading",
                     publicId: "",
                     format: "",
                     resourceType: "image",
@@ -60,15 +61,16 @@ export default function UploadImage() {
 
                     setActiveLayer(activeLayer.id);
                     console.log(activeLayer);
-                    setUploading(false);
+                    setGenerating(false);
                 }
                 if (res?.data?.error) {
-                    setUploading(false);
+                    setGenerating(false);
                 }
             }
 
             if (fileRejections.length) {
                 console.log("rejected");
+                toast.error(fileRejections[0].errors[0].message);
             }
         },
     });

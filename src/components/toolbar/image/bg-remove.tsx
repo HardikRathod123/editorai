@@ -6,10 +6,11 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { useImageStore } from "@/lib/image-store";
 import { useLayerStore } from "@/lib/layer-store";
+import { useImageStore } from "@/lib/store";
 import { bgRemoval } from "@/server/bg-remove";
-import { Image as ImageIcon } from "lucide-react";
+import { Image } from "lucide-react";
+import { toast } from "sonner";
 
 export default function BgRemove() {
     const tags = useImageStore((state) => state.tags);
@@ -29,7 +30,7 @@ export default function BgRemove() {
                 <Button variant="outline" className="py-8">
                     <span className="flex flex-col items-center justify-center gap-1 text-xs font-medium">
                         BG Removal
-                        <ImageIcon size={18} />
+                        <Image size={18} />
                     </span>
                 </Button>
             </PopoverTrigger>
@@ -72,9 +73,13 @@ export default function BgRemove() {
                                 publicId: activeLayer.publicId,
                                 resourceType: "image",
                             });
+                            setGenerating(false);
                             setActiveLayer(newLayerId);
                         }
-                        setGenerating(false);
+                        if (res?.serverError) {
+                            toast.error(res.serverError);
+                            setGenerating(false);
+                        }
                     }}
                 >
                     {generating ? "Removing..." : "Remove Background"}

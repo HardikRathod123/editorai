@@ -8,8 +8,8 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { useImageStore } from "@/lib/image-store";
 import { useLayerStore } from "@/lib/layer-store";
+import { useImageStore } from "@/lib/store";
 import { replaceBackground } from "@/server/bg-replace";
 import { ImageOff } from "lucide-react";
 import { useState } from "react";
@@ -79,10 +79,9 @@ export default function AIBackgroundReplace() {
                                 publicId: activeLayer.publicId,
                                 resourceType: "image",
                             });
-
+                            setGenerating(false);
                             setActiveLayer(newLayerId);
                         }
-                        setGenerating(false);
                     }}
                 >
                     {generating ? "Generating..." : "Replace Background"}

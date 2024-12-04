@@ -1,17 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardTitle,
-} from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useLayerStore } from "@/lib/layer-store";
 import { cn } from "@/lib/utils";
 import { Download } from "lucide-react";
 import { useState } from "react";
+import { Button } from "../../ui/button";
+import { Card, CardContent, CardDescription, CardTitle } from "../../ui/card";
+import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
 
 export default function ExportAsset({ resource }: { resource: string }) {
     const activeLayer = useLayerStore((state) => state.activeLayer);

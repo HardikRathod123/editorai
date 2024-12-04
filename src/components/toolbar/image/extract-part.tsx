@@ -10,8 +10,8 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useImageStore } from "@/lib/image-store";
 import { useLayerStore } from "@/lib/layer-store";
+import { useImageStore } from "@/lib/store";
 import { extractImage } from "@/server/extract-part";
 import { Scissors } from "lucide-react";
 import { useState } from "react";
@@ -154,9 +154,9 @@ export default function ExtractPart() {
                                 publicId: activeLayer.publicId,
                                 resourceType: "image",
                             });
+                            setGenerating(false);
                             setActiveLayer(newLayerId);
                         }
-                        setGenerating(false);
                     }}
                 >
                     {generating ? "Extracting..." : "Extract"}

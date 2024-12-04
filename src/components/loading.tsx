@@ -1,7 +1,7 @@
 "use client";
 
-import { useImageStore } from "@/lib/image-store";
 import { useLayerStore } from "@/lib/layer-store";
+import { useImageStore } from "@/lib/store";
 import Lottie from "lottie-react";
 import loadingAnimation from "public/animations/loading.json";
 import {

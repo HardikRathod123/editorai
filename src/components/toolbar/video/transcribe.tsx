@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useImageStore } from "@/lib/image-store";
 import { useLayerStore } from "@/lib/layer-store";
+import { useImageStore } from "@/lib/store";
 import { initiateTranscription } from "@/server/transcribe";
 import { Captions } from "lucide-react";
 import { useState } from "react";
