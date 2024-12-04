@@ -35,8 +35,7 @@ export const uploadImage = actionClient
                 (resolve, reject) => {
                     const uploadStream = cloudinary.uploader.upload_stream(
                         {
-                            upload_preset:
-                                "process.env.CLOUDINARY_UPLOAD_PRESET",
+                            upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
                         },
                         (error, result) => {
                             if (error || !result) {
