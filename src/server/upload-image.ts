@@ -34,7 +34,7 @@ export const uploadImage = actionClient
             return new Promise<UploadResult>((resolve, reject) => {
                 const uploadStream = cloudinary.uploader.upload_stream(
                     {
-                        upload_preset: "editorai",
+                        upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
                     },
                     (error, result) => {
                         if (error || !result) {
@@ -48,6 +48,6 @@ export const uploadImage = actionClient
                 uploadStream.end(buffer);
             });
         } catch (error) {
-            return { error };
+            return { error: "Failed to upload image" };
         }
     });
