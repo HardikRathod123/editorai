@@ -15,6 +15,7 @@ import { useImageStore } from "@/lib/store";
 import { extractImage } from "@/server/extract-part";
 import { Scissors } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function ExtractPart() {
     const setGenerating = useImageStore((state) => state.setGenerating);
@@ -156,6 +157,10 @@ export default function ExtractPart() {
                             });
                             setGenerating(false);
                             setActiveLayer(newLayerId);
+                        }
+                        if (res?.serverError) {
+                            toast.error(res.serverError);
+                            setGenerating(false);
                         }
                     }}
                 >

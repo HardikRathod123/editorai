@@ -1,14 +1,10 @@
 "use server";
 
+import { initCloudinary, pollingUrl } from "@/lib/cloudinary";
 import { actionClient } from "@/server/safe-action";
-import { v2 as cloudinary } from "cloudinary";
 import z from "zod";
 
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_NAME,
-    api_key: process.env.CLOUDINARY_KEY,
-    api_secret: process.env.CLOUDINARY_SECRET,
-});
+initCloudinary();
 
 const extractSchema = z.object({
     prompts: z.array(z.string()),
@@ -18,18 +14,6 @@ const extractSchema = z.object({
     invert: z.boolean().optional(),
     format: z.string(),
 });
-
-async function checkImageProcessing(url: string) {
-    try {
-        const response = await fetch(url);
-        if (response.ok) {
-            return true;
-        }
-        return false;
-    } catch (error) {
-        return false;
-    }
-}
 
 export const extractImage = actionClient
     .schema(extractSchema)
@@ -57,22 +41,16 @@ export const extractImage = actionClient
 
             const extractUrl = `${parts[0]}/upload/e_extract:${extractParams}/${parts[1]}`;
 
-            // Poll the URL to check if the image is processed
-            let isProcessed = false;
-            const maxAttempts = 20;
-            const delay = 1000; // 1 second
-            for (let attempt = 0; attempt < maxAttempts; attempt++) {
-                isProcessed = await checkImageProcessing(extractUrl);
-                if (isProcessed) {
-                    break;
+            try {
+                const isProcessed = await pollingUrl(extractUrl);
+                if (!isProcessed) {
+                    console.error("Image processing failed");
+                    throw new Error("Image processing failed");
                 }
-                await new Promise((resolve) => setTimeout(resolve, delay));
+                return { success: extractUrl };
+            } catch (error) {
+                console.error(error);
+                throw error;
             }
-
-            if (!isProcessed) {
-                throw new Error("Image processing timed out");
-            }
-            console.log(extractUrl);
-            return { success: extractUrl };
         },
     );

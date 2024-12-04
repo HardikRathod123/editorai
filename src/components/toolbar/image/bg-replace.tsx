@@ -13,6 +13,7 @@ import { useImageStore } from "@/lib/store";
 import { replaceBackground } from "@/server/bg-replace";
 import { ImageOff } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function AIBackgroundReplace() {
     const setGenerating = useImageStore((state) => state.setGenerating);
@@ -81,6 +82,10 @@ export default function AIBackgroundReplace() {
                             });
                             setGenerating(false);
                             setActiveLayer(newLayerId);
+                        }
+                        if (res?.serverError) {
+                            toast.error(res.serverError);
+                            setGenerating(false);
                         }
                     }}
                 >

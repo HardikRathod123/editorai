@@ -12,6 +12,7 @@ import { genFill } from "@/server/gen-fill";
 import { motion } from "framer-motion";
 import { Crop } from "lucide-react";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
 const PREVIEW_SIZE = 250;
 const EXPANSION_THRESHOLD = 250; // px
@@ -100,8 +101,8 @@ export default function GenerativeFill() {
             });
             setActiveLayer(newLayerId);
         }
-        if (res?.data?.error) {
-            console.log(res.data.error);
+        if (res?.serverError) {
+            toast.error(res.serverError);
             setGenerating(false);
         }
     };

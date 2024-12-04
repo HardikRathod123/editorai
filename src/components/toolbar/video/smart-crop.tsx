@@ -59,8 +59,8 @@ export default function SmartCrop() {
             toast.success(res.data.success);
             setActiveLayer(newLayerId);
         }
-        if (res?.data?.error) {
-            toast.error(res.data.error);
+        if (res?.serverError) {
+            toast.error(res.serverError);
             setGenerating(false);
         }
     };

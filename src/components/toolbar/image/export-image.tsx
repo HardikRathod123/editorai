@@ -4,6 +4,7 @@ import { useLayerStore } from "@/lib/layer-store";
 import { cn } from "@/lib/utils";
 import { Download } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "../../ui/button";
 import { Card, CardContent, CardDescription, CardTitle } from "../../ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
@@ -22,7 +23,7 @@ export default function ExportAsset({ resource }: { resource: string }) {
                 }
                 const data = await res.json();
                 console.log(data);
-                if (data.error) {
+                if (data.serverError) {
                     throw new Error(data.error);
                 }
 
@@ -46,6 +47,7 @@ export default function ExportAsset({ resource }: { resource: string }) {
                 URL.revokeObjectURL(downloadUrl);
             } catch (error) {
                 console.error("Download failed:", error);
+                toast("Download failed, please try again later");
                 // Here you could show an error message to the user
             }
         }

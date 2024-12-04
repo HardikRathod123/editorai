@@ -1,4 +1,4 @@
-import { checkImageProcessing } from "@/server/url_process";
+import { pollingUrl } from "@/lib/cloudinary";
 import cloudinary from "cloudinary";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -47,22 +47,10 @@ export async function GET(request: NextRequest) {
         const url = selected
             ? `${parts[0]}/upload/${selected}/${parts[1]}`
             : activeUrl!;
-
-        // Poll the URL to check if the image is processed
-        let isProcessed = false;
-        const maxAttempts = 20;
-        const delay = 1000; // 1 second
-        for (let attempt = 0; attempt < maxAttempts; attempt++) {
-            isProcessed = await checkImageProcessing(url);
-
-            if (isProcessed) {
-                break;
-            }
-            await new Promise((resolve) => setTimeout(resolve, delay));
-        }
-
+        const isProcessed = await pollingUrl(url);
         if (!isProcessed) {
-            throw new Error("Image processing timed out");
+            console.error("Image processing failed");
+            throw new Error("Image processing failed");
         }
         return NextResponse.json({
             url,
@@ -71,7 +59,7 @@ export async function GET(request: NextRequest) {
     } catch (error) {
         console.error("Error generating image URL:", error);
         return NextResponse.json(
-            { error: "Error generating image URL" },
+            { serverError: "Error generating image URL" },
             { status: 500 },
         );
     }

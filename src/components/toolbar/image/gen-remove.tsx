@@ -14,6 +14,7 @@ import { useImageStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { genRemove } from "@/server/gen-remove";
 import { Eraser } from "lucide-react";
+import { toast } from "sonner";
 
 export default function GenRemove() {
     const tags = useImageStore((state) => state.tags);
@@ -108,6 +109,10 @@ export default function GenRemove() {
                                 resourceType: "image",
                             });
                             setActiveLayer(newLayerId);
+                        }
+                        if (res?.serverError) {
+                            toast.error(res.serverError);
+                            setGenerating(false);
                         }
                     }}
                 >
