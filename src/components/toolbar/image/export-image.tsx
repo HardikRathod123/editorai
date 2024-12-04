@@ -12,6 +12,8 @@ import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
 export default function ExportAsset({ resource }: { resource: string }) {
     const activeLayer = useLayerStore((state) => state.activeLayer);
     const [selected, setSelected] = useState("original");
+    if (typeof window === "undefined") return; //srr issue fix
+
     const handleDownload = async () => {
         if (activeLayer?.publicId) {
             try {
