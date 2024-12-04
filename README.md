@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Image & Video Editor
 
-## Getting Started
+A powerful online editor leveraging AI capabilities for image and video manipulation, built with Next.js, Shadcn UI, and Cloudinary API.
 
-First, run the development server:
+## ✨ Features
+
+### Image Editing Tools
+
+- **Generate & Remove** - AI-powered object generation and removal
+- **Background Removal** - Clean background removal from images
+- **AI Background Replace** - Smart background replacement with AI
+- **Generative Fill** - Context-aware image completion
+- **Part Extraction** - Intelligent object extraction from images
+- **AI Recolor** - Smart recoloring using AI
+
+### Video Editing Tools
+
+- **Video Transcription** - Convert video speech to text
+- **Smart Crop** - Intelligent video cropping and resizing
+
+## 🚀 Tech Stack
+
+- **Frontend Framework:** Next.js
+- **UI Components:** Shadcn UI
+- **Animations:** Framer Motion
+- **Image/Video Processing:** Cloudinary API
+- **Server-Side:** Next.js Server Actions
+
+## 🛠️ Installation & Setup
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/HardikRathod123/editorai
+```
+
+2. Install dependencies
+
+```bash
+npm install
+```
+
+3. Configure environment variables
+    - Copy `.env.example` to `.env.local`
+    - Fill in the required credentials:
+
+```env
+CLOUDINARY_KEY=
+CLOUDINARY_SECRET=
+CLOUDINARY_NAME=
+CLOUDINARY_URL=
+CLOUDINARY_UPLOAD_PRESET=
+```
+
+4. Start the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📚 Learning Guide
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project is structured with learning in mind. To get the most out of it:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Install the "Git Graph" extension in VS Code
+2. Follow the commit history step-by-step
+3. Each commit represents a specific feature implementation or concept
+4. The commits are organized to provide a logical learning progression
 
-## Learn More
+## 🔄 Step-by-Step Learning Path
 
-To learn more about Next.js, take a look at the following resources:
+To follow the development process:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Open Git Graph extension (`Ctrl/Cmd + Shift + P` → "Git Graph: View Git Graph")
+2. Start from the initial commit
+3. Follow each commit chronologically
+4. Each commit message explains the implementation details
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🎯 Future Roadmap
 
-## Deploy on Vercel
+- [ ] Additional AI features implementation
+- [ ] Enhanced error handling with Cloudinary integration
+- [ ] Rate limiting implementation for API calls
+- [ ] Custom Cloudinary API key support for users
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ⚠️ Known Limitations
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Currently relies on default error handling from Cloudinary
+- No rate limiting implemented (demo project)
+- Uses shared Cloudinary credentials
+
+## 🤝 Contributing
+
+Contributions are welcome! Please:
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Submit a pull request
+
+## 🙏 Acknowledgments
+
+- Thanks to the Next.js team
+- Shadcn UI for the component library
+- Cloudinary for their API
+- Framer Motion for animations
+
+---
+
+Built with ❤️ by [Hardik Rathod](https://x.com/HardikR68342506)
