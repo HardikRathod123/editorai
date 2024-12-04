@@ -5,7 +5,6 @@ import Layers from "./layers/layers";
 import Loading from "./loading";
 import { ModeToggle } from "./theme-toggle";
 import ImageTools from "./toolbar/image-tools";
-import ExportAsset from "./toolbar/image/export-image";
 import VideoTools from "./toolbar/video-tools";
 import UploadForm from "./upload/upload-form";
 
@@ -25,9 +24,6 @@ export default function Editor() {
                     {activeLayer.resourceType === "image" ? (
                         <ImageTools />
                     ) : null}
-                    {activeLayer.resourceType && (
-                        <ExportAsset resource={activeLayer.resourceType} />
-                    )}
                 </div>
             </div>
             <Loading />
