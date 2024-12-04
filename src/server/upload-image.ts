@@ -31,23 +31,34 @@ export const uploadImage = actionClient
             const arrayBuffer = await file.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
 
-            return new Promise<UploadResult>((resolve, reject) => {
-                const uploadStream = cloudinary.uploader.upload_stream(
-                    {
-                        upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
-                    },
-                    (error, result) => {
-                        if (error || !result) {
-                            reject({ error: "Failed to upload image" });
-                            return;
-                        } else {
-                            resolve({ success: result });
-                        }
-                    },
-                );
-                uploadStream.end(buffer);
-            });
+            const result = await new Promise<UploadApiResponse>(
+                (resolve, reject) => {
+                    const uploadStream = cloudinary.uploader.upload_stream(
+                        {
+                            upload_preset:
+                                "process.env.CLOUDINARY_UPLOAD_PRESET",
+                        },
+                        (error, result) => {
+                            if (error || !result) {
+                                console.error("Upload failed:", error);
+                                reject(error || new Error("Upload failed"));
+                            } else {
+                                console.log("Upload successful:", result);
+                                resolve(result);
+                            }
+                        },
+                    );
+                    uploadStream.end(buffer);
+                },
+            );
+            return { success: result };
         } catch (error) {
-            return { error: "Failed to upload image" };
+            console.error("Error processing file:", error);
+            return {
+                error:
+                    error instanceof Error
+                        ? error.message
+                        : "Error processing file",
+            };
         }
     });

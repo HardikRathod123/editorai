@@ -64,6 +64,17 @@ export default function UploadImage() {
                     setGenerating(false);
                 }
                 if (res?.data?.error) {
+                    toast.error(res.data.error);
+                    updateLayer({
+                        id: activeLayer.id,
+                        url: "",
+                        width: 0,
+                        height: 0,
+                        name: "Failed to upload",
+                        publicId: "",
+                        format: "",
+                        resourceType: "",
+                    });
                     setGenerating(false);
                 }
             }
