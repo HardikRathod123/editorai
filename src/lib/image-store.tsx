@@ -13,6 +13,8 @@ type State = {
     setActiveColor: (color: string) => void;
     generating: boolean;
     setGenerating: (generating: boolean) => void;
+    uploading: boolean;
+    setUploading: (uploading: boolean) => void;
 };
 
 const getStore = (initialState: {
@@ -31,6 +33,8 @@ const getStore = (initialState: {
                 setActiveColor: (color) => set({ activeColor: color }),
                 generating: false,
                 setGenerating: (generating) => set({ generating }),
+                uploading: false,
+                setUploading: (uploading) => set({ uploading }),
             }),
             {
                 name: "image-storage",

@@ -2,6 +2,7 @@
 import { useLayerStore } from "@/lib/layer-store";
 import ActiveImage from "./active-image";
 import Layers from "./layers/layers";
+import Loading from "./loading";
 import { ModeToggle } from "./theme-toggle";
 import ImageTools from "./toolbar/image-tools";
 import UploadForm from "./upload/upload-form";
@@ -18,8 +19,9 @@ export default function Editor() {
                     {activeLayer.resourceType === "image" && <ImageTools />}
                 </div>
             </div>
-            <UploadForm />
+            <Loading />
             <ActiveImage />
+            <UploadForm />
             <Layers />
         </div>
     );

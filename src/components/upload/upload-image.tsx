@@ -4,11 +4,14 @@ import { useImageStore } from "@/lib/image-store";
 import { useLayerStore } from "@/lib/layer-store";
 import { cn } from "@/lib/utils";
 import { uploadImage } from "@/server/upload-image";
+import Lottie from "lottie-react";
+import imageAnimation from "public/animations/image-upload.json";
 import { useDropzone } from "react-dropzone";
 import { Card, CardContent } from "../ui/card";
 
 export default function UploadImage() {
-    const setGenerating = useImageStore((state) => state.setGenerating);
+    const setTags = useImageStore((state) => state.setTags);
+    const setUploading = useImageStore((state) => state.setUploading);
     const activeLayer = useLayerStore((state) => state.activeLayer);
     const updateLayer = useLayerStore((state) => state.updateLayer);
     const setActiveLayer = useLayerStore((state) => state.setActiveLayer);
@@ -27,14 +30,14 @@ export default function UploadImage() {
                 formData.append("image", acceptedFiles[0]);
                 //Generate Object url
                 const objectUrl = URL.createObjectURL(acceptedFiles[0]);
-                setGenerating(true);
+                setUploading(true);
 
                 updateLayer({
                     id: activeLayer.id,
                     url: objectUrl,
                     width: 0,
                     height: 0,
-                    name: "uploading",
+                    name: "Uploading " + acceptedFiles[0].name,
                     publicId: "",
                     format: "",
                     resourceType: "image",
@@ -53,13 +56,14 @@ export default function UploadImage() {
                         format: res.data.success.format,
                         resourceType: res.data.success.resource_type,
                     });
+                    setTags(res.data.success.tags);
 
                     setActiveLayer(activeLayer.id);
                     console.log(activeLayer);
-                    setGenerating(false);
+                    setUploading(false);
                 }
                 if (res?.data?.error) {
-                    setGenerating(false);
+                    setUploading(false);
                 }
             }
 
@@ -81,6 +85,10 @@ export default function UploadImage() {
                 <CardContent className="flex h-full flex-col items-center justify-center px-2 py-24 text-xs">
                     <input {...getInputProps()} />
                     <div className="flex flex-col items-center justify-center gap-4">
+                        <Lottie
+                            className="h-48"
+                            animationData={imageAnimation}
+                        />
                         <p className="text-2xl text-muted-foreground">
                             {isDragActive
                                 ? "Drop your image here!"
