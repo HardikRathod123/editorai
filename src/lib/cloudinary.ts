@@ -1,11 +1,15 @@
 import { v2 as cloudinary } from "cloudinary";
 
 export const initCloudinary = () => {
-    cloudinary.config({
-        cloud_name: process.env.CLOUDINARY_NAME,
-        api_key: process.env.CLOUDINARY_KEY,
-        api_secret: process.env.CLOUDINARY_SECRET,
-    });
+    try {
+        cloudinary.config({
+            cloud_name: process.env.CLOUDINARY_NAME,
+            api_key: process.env.CLOUDINARY_KEY,
+            api_secret: process.env.CLOUDINARY_SECRET,
+        });
+    } catch (error) {
+        console.error("Error initializing Cloudinary", error);
+    }
 };
 
 export async function pollingUrl(
