@@ -46,25 +46,31 @@ export default function UploadImage() {
                 setActiveLayer(activeLayer.id);
                 const res = await uploadImage({ image: formData });
 
-                if (res?.data?.success) {
-                    updateLayer({
-                        id: activeLayer.id,
-                        url: res.data.success.url,
-                        width: res.data.success.width,
-                        height: res.data.success.height,
-                        name: res.data.success.original_filename,
-                        publicId: res.data.success.public_id,
-                        format: res.data.success.format,
-                        resourceType: res.data.success.resource_type,
-                    });
-                    setTags(res.data.success.tags);
+                try {
+                    if (res?.data?.success) {
+                        updateLayer({
+                            id: activeLayer.id,
+                            url: res.data.success.url,
+                            width: res.data.success.width,
+                            height: res.data.success.height,
+                            name: res.data.success.original_filename,
+                            publicId: res.data.success.public_id,
+                            format: res.data.success.format,
+                            resourceType: res.data.success.resource_type,
+                        });
+                        setTags(res.data.success.tags);
 
-                    setActiveLayer(activeLayer.id);
-                    console.log(activeLayer);
-                    setGenerating(false);
-                }
-                if (res?.data?.error) {
-                    toast.error(res.data.error);
+                        setActiveLayer(activeLayer.id);
+                    }
+                    if (res?.data?.error || !res?.data?.success) {
+                        throw new Error(
+                            res?.data?.error ||
+                                "An error occurred while uploading the image",
+                        );
+                    }
+                } catch (error) {
+                    console.error(error);
+                    toast.error("An error occurred while uploading the image");
                     updateLayer({
                         id: activeLayer.id,
                         url: "",
@@ -75,6 +81,7 @@ export default function UploadImage() {
                         format: "",
                         resourceType: "",
                     });
+                } finally {
                     setGenerating(false);
                 }
             }
